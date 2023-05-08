@@ -1,0 +1,67 @@
+use std::io;
+use std::f64::consts::PI;
+
+enum Operation {
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+    Involution,
+    Pi,
+}
+
+impl Operation {
+    fn from_input(input: u32) -> Option<Operation> {
+        match input {
+            1 => Some(Operation::Add),
+            2 => Some(Operation::Subtract),
+            3 => Some(Operation::Multiply),
+            4 => Some(Operation::Divide),
+            5 => Some(Operation::Involution),
+            6 => Some(Operation::Pi),
+            _ => None,
+        }
+    }
+
+    fn apply(&self, num1: f64, num2: f64) -> f64 {
+        match self {
+            Operation::Add => num1 + num2,
+            Operation::Subtract => num1 - num2,
+            Operation::Multiply => num1 * num2,
+            Operation::Divide => num1 / num2,
+            Operation::Involution => num1.powf(num2),
+            Operation::Pi => num1 * num2 * PI,
+        }
+    }
+}
+
+fn main() {
+    loop {
+        println!("welcome to my calculator. Choose one from number 1 to 7");
+        println!("1: Add 2: Subtraction 3: Multiplication 4: Division 5: Involution 6: Pi 7: Exit");
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        let op = input.trim().parse::<u32>().unwrap();
+    
+    // If the number is 7, exit the program.
+        if op == 7 {
+            break;
+        } else if let Some(operation) = Operation::from_input(op) {
+            println!("Please enter the first number.");
+            input = String::new();
+            io::stdin().read_line(&mut input).unwrap();
+            let num1 = input.trim().parse::<f64>().unwrap();
+
+            println!("Please enter the second number.");
+            input = String::new();
+            io::stdin().read_line(&mut input).unwrap();
+            let num2 = input.trim().parse::<f64>().unwrap();
+
+            let result = operation.apply(num1, num2);
+            println!("Result: {}", result);
+        } else {
+            println!("Invalid operator.");
+        }
+    }
+}
